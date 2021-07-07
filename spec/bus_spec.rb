@@ -1,4 +1,5 @@
-require './lib/bus'
+# require 'rspec'
+# require './lib/bus'
 require 'spec_helper'
 
 RSpec.describe Bus do
@@ -49,11 +50,10 @@ RSpec.describe Bus do
     end
   end
 
-  # Iteration 2
-  context 'Passengers' do
+  # Iteration 3
+  context 'Capacity' do
     it 'counts the number of passengers' do
       bus = Bus.new('Mikes Awesome Bus', 4)
-
       bus.add_passenger('Mike')
       bus.add_passenger('Megan')
       bus.add_passenger('Tim')
@@ -63,18 +63,46 @@ RSpec.describe Bus do
 
     it 'determines if the bus is over capacity' do
       bus = Bus.new('Mikes Awesome Bus', 4)
-
       bus.add_passenger('Mike')
       bus.add_passenger('Megan')
       bus.add_passenger('Tim')
 
       expect(bus.over_capacity?).to eq(false)
+
       bus.add_passenger('Eve')
       bus.add_passenger('Alice')
 
       expect(bus.number_of_passengers).to eq(5)
 
       expect(bus.over_capacity?).to eq(true)
+    end
+  end
+
+  # Iteration 4
+  context 'Population control' do
+    it 'kicks out passengers' do
+      bus = Bus.new('Mikes Awesome Bus', 4)
+      bus.add_passenger('Mike')
+      bus.add_passenger('Megan')
+      bus.add_passenger('Tim')
+      bus.add_passenger('James')
+      bus.add_passenger('Cat')
+      bus.add_passenger('Alice')
+
+      bus.kick_out
+
+      expect(bus.number_of_passengers).to eq(5)
+
+      expect(bus.over_capacity?).to eq(true)
+
+      bus.kick_out
+      bus.kick_out
+
+      expect(bus.number_of_passengers).to eq(3)
+
+      expect(bus.over_capacity?).to eq(false)
+
+      expect(bus.passengers).to eq(["James", "Cat", "Alice"])
     end
   end
 end
